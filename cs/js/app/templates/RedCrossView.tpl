@@ -49,12 +49,12 @@
                 
                 <div class="row-fluid"><div class="span12">
                     <ul class="nav uppercase immersive pull-right">
-                        <li>
+                        <!--<li>
                             <a href="#news"><i class="icon-bullhorn"></i> News</a>
-                        </li>
-                        <li>
+                        </li>-->
+                        <!--<li>
                             <a href="#help"><i class="icon-comment"></i> Help</a>
-                        </li>
+                        </li>-->
                         <li>
                             <a href="#issues"><i class="icon-exclamation-sign"></i> Issues</a>
                         </li>

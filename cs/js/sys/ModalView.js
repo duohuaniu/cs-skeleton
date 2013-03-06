@@ -74,7 +74,7 @@ define([
             // 6. ensure modal manager is tracking
             modalMgr.track($modal);
         }
-      
+        
         // extend delegateEvents to include modalEvents
       , delegateEvents: function(events){
             var modalEvents = _.extend({}, (events || _.result(this, 'events')), _.result(this, 'modalEvents'));

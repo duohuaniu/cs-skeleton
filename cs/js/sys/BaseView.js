@@ -1,13 +1,13 @@
 define([
     'backbone'
-  , 'sys/TemplateMgr'
-  , 'sys/AjaxMgr'
+  , 'sys/ViewTemplateMgr'
+  , 'sys/ViewAjaxMgr'
   , 'bootstrap'
   , 'jquery'
 ],function(
     Backbone
-  , TemplateMgr
-  , AjaxMgr
+  , ViewTemplateMgr
+  , ViewAjaxMgr
 ){
 
     // original BackboneView
@@ -47,8 +47,8 @@ define([
             BackboneView.call(this, options);
             
             // initialize the view template manager and ajax requests manager
-            this.tpl = new TemplateMgr(this.template);
-            this.ajax = new AjaxMgr();
+            this.tpl = new ViewTemplateMgr(this.template);
+            this.ajax = new ViewAjaxMgr();
             
             // start listening to other objects
             this.startListening();
@@ -241,6 +241,48 @@ define([
         }
         
     });
+    
+    /**
+     * Handler Helper function
+     * 
+     * Handler helps to segregate sections of minor functionality within a view. It is entirely 
+     * optional and was solely implemented for code readability purposes. 
+     * 
+     * This utility functions exactly like .extend(), but merges three main properties: 
+     * target elements ("$t"), mapped backbone events ("listen"), and mapped dom events ("events").
+     * 
+     * All other properties will be extended, as normal. 
+     * 
+     */
+    BaseView.addHandler = function(ext){
+        var proto = this.prototype;
+        
+        // merge listen property, merging by keys
+        var listen = proto.listen || {};
+        for (var e in ext.listen || {}) {
+            listen[e] = listen[e] ? _.union([], ext.listen[e], listen[e]) : ext.listen[e];
+        }
+        
+        // merge events property, merging by keys
+        var events = proto.events || {};
+        for (var e in ext.events || {}) {
+            events[e] = events[e] ? _.union([], ext.events[e], events[e]) : ext.events[e];
+        }
+        
+        // merge $t property, overwriting keys
+        var $t = _.extend({}, ext.$t, proto.$t);
+        
+        // update the ext properties
+        var prop = _.extend({}, ext, {
+            $t: $t
+          , listen: listen
+          , events: events
+        });
+        
+        // and extend the view
+        return this.extend(prop);
+    };
+    
     
     return BaseView;
 });

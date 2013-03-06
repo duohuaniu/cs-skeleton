@@ -1,13 +1,15 @@
 define([
     "backbone"
+  , "sys/RouterViewMgr"
+  , "app/models/UserModel"
+  , "app/models/AppModel"
   , "app/views/RedCrossView"
-  , "BaseModel"
-  , "BaseModel"
 ], function(
     Backbone
-  , RedCrossView
+  , RouterViewMgr
   , UserModel
   , AppModel
+  , RedCrossView
 ){ 
 
     // root "window"/global scope
@@ -38,21 +40,16 @@ define([
         initialize: function(opts){
             var options = _.defaults(opts, routerDefaults);
             
-            // setup configuration values
-            this.version = options.version;
-            this.environment = options.environment;
-            this.sandbox = options.sandbox;
-            
             // setup core user model
             this.user = new UserModel(options.user);
             
             // setup application model
             this.app = new AppModel(options.app);
             
-            // initialize map of tracked views
-            this.views = {};
+            // initialize RouterViewMgr to track views
+            this.views = new RouterViewMgr();
             
-            // setup core red cross view
+            // setup core RedCrossView
             this.rc = new RedCrossView({app: this});
         }
         
@@ -67,41 +64,13 @@ define([
                 // this.navigate('', {trigger:true});
             }
             
-            // render top view
+            // render core RedCrossView
             this.rc.render();
         }
         
-      // , haveView: function(func){
-            // var fragment = Backbone.history.fragment;
-            // var view = this.views[fragment];
-            // if (! view) func.call(this);
-            // else view.$modal.focusin();
-        // }
-        
-      , trackView: function(view, active, dispose){
-            var fragment = Backbone.history.fragment;
-            
-            // store view, keyed to current fragment
-            this.views[fragment] = view;
-            
-            // attach "active" event listener
-            this.listenTo(view, active, function(){
-                this.navigate(fragment, {trigger:false});
-            });
-            
-            // attach "dispose" event listener
-            this.listenTo(view, dispose, function(){
-            
-                // remove view reference
-                delete this.views[fragment];
-                
-                // stop listening to view
-                this.stopListening(view);
-                
-                // navigate to current index
-                if (this.adminView.$el.is(':visible')) this.navigate('admin',{trigger:false});
-                else if (this.requestsView.$el.is(':visible')) this.navigate('requests',{trigger:false});
-            });
+        // helper to return current route fragment
+      , fragment: function(){
+            return Backbone.history.fragment;
         }
         
       , routes: {
@@ -115,10 +84,6 @@ define([
         
       , _route_: function(){
             
-        }
-        
-      , fragment: function(){
-            return Backbone.history.fragment;
         }
     });
     
