@@ -66,9 +66,9 @@
         <div class="row-fluid">
             <div class="span9 navbar banner">
                 <ul class="nav uppercase">
-                    <% var features = app.app.get("features"); for (var path in features) { %>
+                    <% var indexes = app.app.get("indexes"); for (var path in indexes) { %>
                     <li class="nav-<%= path %>">
-                        <a href="#<%= path %>"><%= features[path] %></a>
+                        <a href="#<%= path %>"><%= indexes[path] %></a>
                     </li>
                     <% } %>
                 </ul>

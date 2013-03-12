@@ -89,13 +89,13 @@ define([
         // updates navigation to reflect current uri
       , _renderNavigation: function(){
             var $nav = this.$t.navigation
-              , fragment = this.app.fragment()
-              , features = this.app.app.get('features');
+              , path = this.app.path()
+              , indexes = this.app.app.get('indexes');
             
             //updates navbar focus
-            if (features[fragment]) { 
+            if (indexes[path]) { 
                 $nav.find('li').removeClass('active');
-                $nav.find('.nav-'+fragment).addClass('active');
+                $nav.find('.nav-'+path).addClass('active');
             };
         }
     });

@@ -9,37 +9,34 @@ define([
     };
     
     _.extend(RouterViewMgr.prototype, Backbone.Events, {
-      // , haveView: function(func){
-            // var fragment = Backbone.history.fragment;
-            // var view = this._views[fragment];
-            // if (! view) func.call(this);
-            // else view.$modal.focusin();
-        // }
+    
+        // start tracking this view
+        track: function(path, view){
         
-        trackView: function(view, active, dispose){
-            var fragment = Backbone.history.fragment;
-            
             // store view, keyed to current fragment
-            this._views[fragment] = view;
-            
-            // attach "active" event listener
-            this.listenTo(view, active, function(){
-                this.app.navigate(fragment, {trigger:false});
-            });
+            this._views[path] = view;
             
             // attach "dispose" event listener
-            this.listenTo(view, dispose, function(){
+            this.listenTo(view, 'dispose', function(){
             
                 // remove view reference
-                delete this._views[fragment];
+                delete this._views[path];
                 
                 // stop listening to view
                 this.stopListening(view);
                 
-                // navigate to current index
-                if (this.adminView.$el.is(':visible')) this.navigate('admin',{trigger:false});
-                else if (this.requestsView.$el.is(':visible')) this.navigate('requests',{trigger:false});
+                // update current path, if still set for this view
+                if (this.app.path() == path) {
+                
+                    // navigate to blank (default route)
+                    this.app.navigate('', {trigger: true});
+                }
             });
+        }
+        
+        // return this view
+      , get: function(path){
+            return this._views[path] ? this._views[path] : false;
         }
     });
     

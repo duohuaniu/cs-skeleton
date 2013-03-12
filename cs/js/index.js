@@ -11,9 +11,14 @@ define([
   , AppModel
   , RedCrossView
 ){ 
-
+    // start the timer!
+    var timer = +new Date();
+    
     // root "window"/global scope
     var root = this;
+    
+    // clear <body />
+    root.document.getElementsByTagName('body')[0].innerHTML = '';
     
     // default router options
     var routerDefaults = {
@@ -28,7 +33,7 @@ define([
                 , environment : '00_env'
                 , sandbox     : false
                 , title       : 'PHSS Application Skeleton'
-                , features    :{'kit'       : 'Get a Kit'
+                , indexes     :{'kit'       : 'Get a Kit'
                               , 'plan'      : 'Make a Plan'
                               , 'informed'  : 'Be Informed'}}
     };
@@ -51,6 +56,13 @@ define([
             
             // setup core RedCrossView
             this.rc = new RedCrossView({app: this});
+            
+            // setup each index view
+            this.indexes = {
+                // plan        : new PlanView({app: this})
+              // , kit         : new KitView({app: this})
+              // , informed    : new InformedView({app: this})
+            };
         }
         
         // startup configuration
@@ -61,29 +73,46 @@ define([
             
                 // todo: handle routing fail(?)
                 // console.log('Router failed to match URL on start.');
-                // this.navigate('', {trigger:true});
             }
+            
+            // page render event
+            this.rc.once('render',function(){
+                console.log('Page Rendered: '+ (+new Date() - timer) + 'ms');
+            });
             
             // render core RedCrossView
             this.rc.render();
+            
+            
+            // initialize each index view
+            
         }
         
         // helper to return current route fragment
-      , fragment: function(){
+      , path: function(){
             return Backbone.history.fragment;
         }
         
+        // map of navigation routes
       , routes: {
-            ''              :'_route_'
-          , 'plan'              :'_route_'
-          , 'kit'              :'_route_'
-          , 'informed'              :'_route_'
-          , 'account'              :'_route_'
-          , 'application'              :'_route_'
+            ''                  :'_default_route_'
+            
+          , 'plan'              :'_plan'
+          , 'kit'               :'_kit'
+          , 'informed'          :'_informed'
+          
+          , 'account'           :'_route_'
+          , 'application'       :'_route_'
         }
         
-      , _route_: function(){
+      , _default_route_: function(){
+            /*var indexes = this.indexes;
             
+            // determine which "index" is active
+            for (var i = 0; i < indexes.length; i++) {
+                
+                if (indexes[i].inDOM() && indexes[i].$el.is(':visible'))
+            }*/
         }
     });
     
