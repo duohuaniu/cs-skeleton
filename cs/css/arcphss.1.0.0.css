@@ -1,0 +1,99 @@
+/** icons **/
+span[class^="icon-"],i[class^="icon-"]{opacity:0.6;vertical-align:-2px;}
+[class^="icon-"],[class*=" icon-"]{background-image:url("bootstrap/glyphicons-halflings.png");}
+.icon-white{background-image:url("bootstrap/glyphicons-halflings-white.png");}
+
+/** overall layout **/
+.container, .container-fluid { 
+    margin:0 auto;
+    max-width:968px;  /* width set to match redcross.org */
+}
+
+/** header navigation **/
+.content-header a.brand {
+    width:100%;
+    margin:0;
+    padding:10px 0;
+    font-weight:bold;
+    font-size:1.2em;
+    color:gray;
+}
+.content-header a.brand img {
+    display:block;
+    margin-bottom:5px;
+}
+.content-header .nav li a { 
+    font-size:0.8em; 
+}
+.content-header .nav.uppercase { 
+    text-transform:uppercase; 
+}
+.content-header {
+    background:#fff url('../img/main-nav-bg.gif') repeat-x center bottom;
+    padding:0 0 5px;
+    margin-bottom:20px;
+}
+.content-header .mobile-menu {
+    position:absolute;
+    top:10px;
+    right:20px;
+}
+
+/** header account nav **/
+.content-header .nav.account { }
+.content-header .nav.account .user { 
+    font-weight:bold;
+}
+.content-header .nav.account .dropdown-menu li a{ 
+    max-width:200px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/** header "immersive" nav **/
+.content-header .nav.immersive { }
+
+/** header functional nav **/
+.content-header .navbar.banner {
+    margin:0;
+}
+.content-header .navbar.banner .nav li a { 
+    font-weight:bold;
+    font-size:1em;
+    padding:10px 15px 8px;
+    border-bottom:2px solid transparent;
+}
+.content-header .navbar.banner .nav > .active > a {
+    background-color: inherit;
+    box-shadow: none;
+    color:#DA4F49;
+}
+.content-header .navbar.banner .nav a:hover, 
+.content-header .navbar.banner .nav a:focus {
+    border-bottom:2px solid red;
+    color:red;
+    outline:none;
+}
+
+/** footer content **/
+.content-footer  {
+    background:#fff url('../img/footer-bg-wide.png') repeat-x center top;
+    padding:50px 0;
+}
+.content-footer hr {
+    border:1px dotted #D5D5D5;
+    height:3px;
+}
+.content-footer .navbar .copyright {
+    float:left;
+    margin-right:15px;
+}
+.content-footer .navbar .nav a {
+    padding:0 15px;
+    border-left:1px solid silver;
+}
+
+/** body content **/
+.content-body {
+    min-height:500px;
+}
