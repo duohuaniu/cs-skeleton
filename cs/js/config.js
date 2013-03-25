@@ -33,7 +33,7 @@ require([],function(){
           , moment          : "//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment"  //"sys/core/moment"
           
             // unit testing libraries
-          , sinon           : "https://raw.github.com/cjohansen/Sinon.JS/v1.5.2/lib/sinon"
+          , sinon           : "http://sinonjs.org/releases/sinon-1.6.0"
             
             // requirejs lib (used for compiling)
           , requireLib      : 'sys/core/requirejs'
@@ -87,5 +87,8 @@ require([],function(){
     });
     
     // and away we go!
-    require(['index']);
+    require([
+        'index'
+      , 'mock'
+    ]);
 });
