@@ -32,6 +32,9 @@ require([],function(){
           , modernizr       : "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr" //"sys/core/modernizr"
           , moment          : "//cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment"  //"sys/core/moment"
           
+            // backbone plugins
+          , bbValidation    : "https://raw.github.com/thedersen/backbone.validation/master/dist/backbone-validation-amd" //"sys/core/bbValidation"
+          
             // unit testing libraries
           , sinon           : "http://sinonjs.org/releases/sinon-1.6.0"
             
@@ -66,6 +69,10 @@ require([],function(){
           , 'backbone' :  { 
                 deps: ['underscore', 'jquery']
               , exports : 'Backbone'
+            }
+          , 'bbValidation' :  { 
+                deps: ['backbone']
+              , exports : 'Backbone.Validation'
             }
           , 'modernizr' :  { 
                 exports : 'Modernizr'
