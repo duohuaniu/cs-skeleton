@@ -1,5 +1,5 @@
 define([
-    'BaseModel'
+    'sys/BaseModel'
 ],function(
     BaseModel
 ){

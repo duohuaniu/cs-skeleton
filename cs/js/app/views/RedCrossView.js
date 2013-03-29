@@ -12,7 +12,7 @@
  */
 
 define([
-    'BaseView'
+    'sys/BaseView'
   , 'text!app/templates/RedCrossView.tpl'
   , 'text!app/templates/RedCrossView.tip'
   , 'text!app/templates/RedCrossView.pop'
@@ -22,11 +22,6 @@ define([
   , ViewTooltips
   , ViewPopovers
 ){
-    
-    // core properties
-    var $targets = {}
-      , listenEvents = {}
-      , domEvents = {};
     
     /**
      * RedCrossView
@@ -61,10 +56,6 @@ define([
             // render main view template
             this.renderTemplate(this.$el, 'main');
         }
-
-      , $t: $targets
-      , listen: listenEvents
-      , events: domEvents
       
     });
     
