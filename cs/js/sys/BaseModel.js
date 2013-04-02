@@ -17,10 +17,10 @@ function(
         constructor: function(attributes, options) {
         
             // CHANGE: set user property based on reference to window.app.user
-            if (_.isObject(window.app)) {
-                this.user = window.app.user;
-                this.app = window.app;
-            }
+            // if (_.isObject(window.app)) {
+                // this.user = window.app.user;
+                // this.app = window.app;
+            // }
             
             // mostly copied straight from backbone-0.9.9
             var defaults;
@@ -290,6 +290,17 @@ function(
         }
         
     });
+    
+    
+    /**
+     * Global Router Helper function
+     * 
+     * Handler helps to set reference to main router, for all BaseView instances.
+     * 
+     */
+    BaseModel.setApp = function(app){
+        BaseModel.prototype.app = app;
+    };
     
     return BaseModel;
 });

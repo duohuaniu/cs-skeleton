@@ -1,34 +1,32 @@
 /**
- * ExampleView - Backbone View
+ * TopbarView - Backbone View
  * Harry Truong (harry.truong@redcross.org)
  *
  *
  */
 define([
     'sys/BaseView'
-  , 'text!app/templates/ExampleView.tpl'
-  , 'text!app/templates/ExampleView.hint'
+  , 'text!app/templates/TopbarView.tpl'
 ],function(
     BaseView
   , ViewTemplate
-  , ViewHints
 ){
     
     /**
-     * ExampleView
-     *
+     * TopbarView
+     * 
+     * 
      */
-    var ExampleView = BaseView.extend({
+    var TopbarView = BaseView.extend({
         
-        name: 'ExampleView'
+        name: 'TopbarView'
       , template: ViewTemplate
-      , hints: ViewHints
         
         // (nothing to initialize)
       , initialize: function(){}
         
       , render: function(){
-            
+      
             // render main view $el
             this.renderElement();
             
@@ -45,22 +43,28 @@ define([
             if (! this.inDOM()) {
             
                 // create root element, append into <body />
-                var $el = $('<div class="'+ this.name +'"></div>').appendTo('body');
+                var $el = $('<div class="'+ this.name +'"></div>').prependTo('body');
                 this.setElement($el); // and update view element
             }
             
             // render main view template
             this.tpl.render(this.$el, 'main');
-            
-            // enable view tooltip hints
-            this.hints.tooltips(true).popoverToggle({
-                $el: this.$('.hero-unit button') 
-              , enabled: true
-              , event: 'click.popoverToggle'
-              , toggleClass: 'btn-danger'
-            });
         }
+        
+      , $t: {
+            'navigation' : $('ul.nav')
+        }
+        
+      , listen: {
+            'render' : '_renderNavigation'
+          , 'route app' : '_renderNavigation'
+        }
+        
+      , _renderNavigation: function(){
+            this.tpl.render(this.$t.navigation, 'navigation', {path: this.app.fragment()});
+        }
+        
     });
     
-    return ExampleView;
+    return TopbarView;
 });

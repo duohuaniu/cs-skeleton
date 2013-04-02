@@ -62,6 +62,12 @@ define([
      * developers to run "start()" in their console, before continuing.
      */
      
+    // check if console.log exists
+    if (window.console === undefined || ! window.console.log) {
+        alert('Sorry, please use a browser that implements a console. (i.e., Firefox)');
+        return;
+    }
+     
     // directly inserts a basic introduction message
     var body = document.getElementsByTagName('body')[0];
     body.innerHTML = 

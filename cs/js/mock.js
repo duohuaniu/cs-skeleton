@@ -1,14 +1,8 @@
 define([
     "sinon"
-  , "require"
-    
-    // mockup list
   , 'mock/example'
-    // ... etc.
-  
 ], function(
     sinon
-  , require
 ){ 
     
     /**
@@ -52,7 +46,7 @@ define([
     
     // start mapping responses! 
     var regex = /^(GET|POST|PUT|DELETE):(.+)$/
-      , mocks = Array.prototype.slice.call(arguments,2);
+      , mocks = Array.prototype.slice.call(arguments,1);
     
     for (var i = 0; i < mocks.length; i++) {
         for (var hash in mocks[i]) {

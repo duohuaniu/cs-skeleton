@@ -2,58 +2,97 @@
  * ExampleView - Backbone View
  * Harry Truong (harry.truong@redcross.org)
  *
- * See 
+ * Implements a basic Backbone Router. 
  *
  */
 define([
-    'backbone'
-  , 'sys/BaseView'
-  , 'text!app/templates/ExampleView.tpl'
-  // , 'text!app/templates/ExampleView.tip'
-  // , 'text!app/templates/ExampleView.pop'
+    'sys/BaseRouter'
+  , 'app/models/AppModel'
+  , 'app/models/UserModel'
+  , 'app/views/TopbarView'
+  , 'app/views/ExampleView'
+  , 'app/views/ExampleView'
+  , 'app/views/ExampleView'
 ],function(
-    Backbone
-  , BaseView
-  , ViewTemplate
-  // , ViewTooltips
-  // , ViewPopovers
+    BaseRouter
+  , AppModel
+  , UserModel
+  , TopbarView
+  , HomeView
+  , AboutView
+  , ContactView
 ){
-    
+
     /**
-     * ExampleView
+     * Example BaseRouter Definition
+     * 
+     * For full details on Backbone Router configurations, see 
+     * http://backbonejs.org/#Router. 
      *
+     * For this example, we focus on routing to three "Content" views: 
+     * HomeView, AboutView and ContactView. There is also one "Static" 
+     * view, TopbarView.
+     * 
+     * When planning views for your app, see documentation notes on 
+     * "Content" and "Static" views: http://documentation.tbd/views.
+     * 
      */
-    var ExampleView = BaseView.extend({
+    var ExampleRouter = BaseRouter.extend({
         
-        name: 'ExampleView'
-      , template: ViewTemplate
-        
-        // (nothing to initialize)
-      , initialize: function(){}
-        
-      , render: function(){
-            this.renderElement();
-            return this._rendered();
+        initialize: function(options){
+            
+            // initialize common models: AppModel, UserModel
+            this.model = new AppModel();
+            this.user = new UserModel();
+            
+            // initialize "Content" and "Static" views
+            this.views = {
+                content: {
+                    home    : new HomeView()
+                  , about   : new AboutView()
+                  , contact : new ContactView()
+                }
+              , static: {
+                    topbar  : new TopbarView()
+                }
+            };
         }
         
-      , renderElement: function(){
-            
-            // if we're not in the DOM yet.. 
-            if (! this.inDOM()) {
-            
-                // create root element, append into <body />
-                var $el = $('<div class="'+ this.name +'"></div>').appendTo('body');
-                this.setElement($el); // and update view element
-            }
-            
-            // render main view template
-            this.renderTemplate(this.$el, 'main');
+        // see http://backbonejs.org/#Router-routes
+      , routes: {
+            ''          : '_route_default' 
+          , 'about*'     : '_route_about'
+          , 'contact*'   : '_route_contact'
         }
+        
+      , _route_default: function(){
+            
+            // remove all other content views
+            _.invoke(this.views.content, 'remove');
+            
+            // render only home content view
+            this.views.content.home.render();
+        }
+        
+      , _route_about: function(){
+            
+            // remove all other content views
+            _.invoke(this.views.content, 'remove');
+            
+            // render only about content view
+            this.views.content.about.render();
+        }
+        
+      , _route_contact: function(){
+            
+            // remove all other content views
+            _.invoke(this.views.content, 'remove');
+            
+            // render only contact content view
+            this.views.content.contact.render();
+        }
+        
     });
     
-    var example = new ExampleView({app:new Backbone.Router()});
-    
-    var Example = function(){};
-    Example.prototype.start = function(){example.render()};
-    return Example;
+    return ExampleRouter;
 });
