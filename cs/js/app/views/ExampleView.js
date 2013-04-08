@@ -21,8 +21,10 @@ define([
     var ExampleView = BaseView.extend({
         
         name: 'ExampleView'
-      , template: ViewTemplate
-      , hints: ViewHints
+      , options: {            
+            template: ViewTemplate
+          , hints: ViewHints
+        }
         
         // (nothing to initialize)
       , initialize: function(){}
@@ -50,10 +52,10 @@ define([
             }
             
             // render main view template
-            this.tpl.render(this.$el, 'main');
+            this.use.tpl.render(this.$el, 'main');
             
             // enable view tooltip hints
-            this.hints.tooltips(true).popoverToggle({
+            this.use.hints.tooltips(true).popoverToggle({
                 $el: this.$('.hero-unit button') 
               , enabled: true
               , event: 'click.popoverToggle'

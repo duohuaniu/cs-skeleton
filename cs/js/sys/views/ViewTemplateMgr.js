@@ -9,9 +9,8 @@ define([
 ){
     
     // simple template management library
-    var ViewTemplateMgr = function(options){
-        var options = options || {}
-          , view = options.view
+    var ViewTemplateMgr = function(view){
+        var options = view.options || {}
           , template = options.template;
         
         // expects view to be a Backbone.View
@@ -55,6 +54,10 @@ define([
             this.trigger("render", $el, tpl, this);
         }
     });
+    
+    // allow extensions (stolen directly from backbone's extend handler)
+    // see http://backbonejs.org/docs/backbone.html#section-189
+    ViewTemplateMgr.extend = Backbone.Model.extend;
     
     return ViewTemplateMgr;
 });

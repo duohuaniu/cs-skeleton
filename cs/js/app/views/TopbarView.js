@@ -20,7 +20,9 @@ define([
     var TopbarView = BaseView.extend({
         
         name: 'TopbarView'
-      , template: ViewTemplate
+      , options: {
+            template: ViewTemplate
+        }
         
         // (nothing to initialize)
       , initialize: function(){}
@@ -48,11 +50,18 @@ define([
             }
             
             // render main view template
-            this.tpl.render(this.$el, 'main');
+            this.use.tpl.render(this.$el, 'main');
         }
         
-      , $t: {
-            'navigation' : $('ul.nav')
+    });
+    
+    /**
+     * Navigation Handler
+     */
+    TopbarView.extendHandler({
+    
+        $targets: {
+            'navigation' : 'ul.nav'
         }
         
       , listen: {
@@ -61,10 +70,10 @@ define([
         }
         
       , _renderNavigation: function(){
-            this.tpl.render(this.$t.navigation, 'navigation', {path: this.app.fragment()});
+            this.use.tpl.render(this.$t('navigation'), 'navigation', {path: this.app.fragment()});
         }
-        
     });
+    
     
     return TopbarView;
 });

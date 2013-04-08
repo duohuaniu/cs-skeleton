@@ -9,7 +9,7 @@ define([
     'backbone'
   , 'sys/BaseView'
   , 'sys/BaseModel'
-  // , 'BaseCollection'
+  // , 'sys/BaseCollection'
 ],function(
     Backbone
   , BaseView
@@ -21,11 +21,8 @@ define([
      * Custom Backbone Router Configurations
      */
     var DefaultRouterConfig = {
-        
-        // http://backbonejs.org/#History-start
-        root : '/'
+        root : window.location.pathname
       , pushState : false
-      
     };
     
     
@@ -56,9 +53,9 @@ define([
             
             // set a global reference for all Views, Models
             // and Collections to this Router instance.
-            BaseView.setApp(this);
-            BaseModel.setApp(this);
-            // BaseCollection.setApp(this);
+            BaseView.prototype.app = this;
+            BaseModel.prototype.app = this;
+            // BaseCollection.prototype.app = this;
             
             // call original constructor
             Backbone.Router.call(this, options);
@@ -73,6 +70,24 @@ define([
               , pushState: this.options.pushState
             });
             
+            // see documentation on "PushState Considerations"
+            // if pushState is enabled, we want to prevent
+            // default page navigations via <a /> tags
+            if (this.options.pushState) {
+                var router = this;
+                
+                // see http://stackoverflow.com/a/9331734
+                $(document).on('click','a:not([data-bypass])',function(ev){
+                    var href = $(this).attr('href')
+                      , protocol = this.protocol + '//';
+                    
+                    if (href.slice(protocol.length) !== protocol) {
+                        ev.preventDefault();
+                        router.navigate(href, {trigger: true});
+                    }
+                });
+            }
+            
             // on failure to match route, navigate to default (empty)
             if (! routed) this.navigate('', {trigger:true, replace:true});
             
@@ -84,7 +99,6 @@ define([
       , fragment: function(){
             return Backbone.history.fragment;
         }
-        
     });
     
     return BaseRouter;

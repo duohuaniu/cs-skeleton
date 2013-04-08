@@ -60,39 +60,38 @@ define([
         
         // see http://backbonejs.org/#Router-routes
       , routes: {
-            ''          : '_route_default' 
-          , 'about*'     : '_route_about'
-          , 'contact*'   : '_route_contact'
+            '(:main)'          : '_route_default'
         }
         
-      , _route_default: function(){
+      , _route_default: function(main){
+            var view = main || 'home';
             
-            // remove all other content views
-            _.invoke(this.views.content, 'remove');
+            // remove current active content view
+            _.invoke(_.filter(this.views.content, function(v){return v.inDOM();}),'remove');
             
-            // render only home content view
-            this.views.content.home.render();
+            // render routed view
+            this.views.content[view].render();
+            
+            console.log(view);
         }
         
-      , _route_about: function(){
-            
-            // remove all other content views
-            _.invoke(this.views.content, 'remove');
-            
-            // render only about content view
-            this.views.content.about.render();
-        }
-        
-      , _route_contact: function(){
-            
-            // remove all other content views
-            _.invoke(this.views.content, 'remove');
-            
-            // render only contact content view
-            this.views.content.contact.render();
-        }
         
     });
+    
+    new (BaseRouter.extend({
+        routes: {
+            'blah'  : '_route_that'
+        }
+        
+      , _route_that: function(){
+            
+            // remove all other content views
+            _.invoke(this.views.content, 'remove');
+            console.log('that');
+            // render only about content view
+            // this.views.content.about.render();
+        }
+    }));
     
     return ExampleRouter;
 });

@@ -1,17 +1,15 @@
 define([
     'backbone'
   , 'underscore'
-  , 'jquery'
+  , 'bootstrap'
 ],function(
     Backbone
   , _
-  , $
 ){
     
     // simple tooltip/popover management library
-    var ViewHintsMgr = function(options){
-        var options = options || {}
-          , view = options.view
+    var ViewHintsMgr = function(view){
+        var options = view.options || {}
           , hints = options.hints;
         
         
