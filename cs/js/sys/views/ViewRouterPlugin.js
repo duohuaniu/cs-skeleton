@@ -6,35 +6,74 @@
  *
  */
 define([
-    'backbone'
+    'sys/ViewPlugin'
+  , 'backbone'
+  , 'underscore'
 ],function(
-    Backbone
+    ViewPlugin
+  , Backbone
+  , _
 ){
 
-    /**
-     * Sub Router Definition
-     */
-    var SubRouter = Backbone.Router.extend({
+    // we're going to borrow these two utilities from Backbone.Router
+    var RouterUtils = _.pick(Backbone.Router.prototype, ['_routeToRegExp','_extractParameters']);
     
-        // extended default constructor
-        constructor: function(view, options){
+    // router one-off for views
+    var ViewRouterPlugin = ViewPlugin.extend({
+        
+        // init plugin 
+        initialize: function(){
+            var view = this.view
+              , options = view.options || {}
+              , routerEvent = options.routerEvent || ''
+              , routes = options.routes || {};
             
-            // set reference to this view
-            this.view = view;
+            // proceed only if we have valid options
+            if (routerEvent && routes) {
             
-            // set routes from the view
-            var options = view.options || {}
-              , routes = options.routes;
-            
-            // call original constructor
-            Backbone.Router.call(this, options);
+                // parse event hash and start listening
+                var rev = routerEvent.split(' '), event = rev[0]
+                  , obj = rev.length == 1 ? view : view[rev[1]];
+                if (obj && event) this.listenTo(obj, event, this._checkRoutes);
+                    
+                // parse and store routes definition
+                this.routes = _.map(_.keys(routes), RouterUtils._routeToRegExp);
+                
+                // store routes definition
+                this.callbacks = _.values(routes);
+                
+                // setup cleanup
+                this.listenTo(view, 'remove', this.stopListening);
+            }
         }
         
-        // helper to return current route fragment
-      , fragment: function(){
-            return Backbone.history.fragment;
+        // check for matched routes
+      , _checkRoutes: function(route){
+            var routes = this.routes
+              , callbacks = this.callbacks
+              , view = this.view;
+              
+            // find matching regex route
+            var match = _.find(routes, function(r){ return r.test(route); });
+            
+            // did we have a match?
+            if (match) { 
+            
+                // select the callback
+                var callback = callbacks[_.indexOf(routes, match)];
+                
+                // extract parameters
+                var params = RouterUtils._extractParameters(match, route);
+                
+                // trigger callback on view
+                if (_.isFunction(view[callback])) {
+                    view[callback].apply(view, params);
+                }
+            }
         }
+        
     });
     
-    return SubRouter;
+    // and that's it!
+    return ViewRouterPlugin;
 });

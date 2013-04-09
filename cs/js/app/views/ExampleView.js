@@ -15,6 +15,16 @@ define([
 ){
     
     /**
+     * router plugin mapping
+     */
+    var ViewRoutes = {
+        ''                  : '_nothing'
+      , 'foo'               : '_foo'
+      , 'splat(/*path)'     : '_splat'
+      , 'parts(/date/:val)' : '_parts'
+    };
+    
+    /**
      * ExampleView
      *
      */
@@ -22,11 +32,12 @@ define([
         
         name: 'ExampleView'
       , options: {            
-            template: ViewTemplate
-          , hints: ViewHints
+            template        : ViewTemplate
+          , hints           : ViewHints
+          , routes          : ViewRoutes
+          , routerEvent     : 'route:home app'
         }
         
-        // (nothing to initialize)
       , initialize: function(){}
         
       , render: function(){
@@ -61,6 +72,21 @@ define([
               , event: 'click.popoverToggle'
               , toggleClass: 'btn-danger'
             });
+        }
+    
+      , _nothing: function(){
+            console.log('called nothing');
+        }
+      , _foo: function(){
+            console.log('called foo');
+        }
+      , _splat: function(){
+            console.log('called splat');
+            console.log(arguments);
+        }
+      , _parts: function(){
+            console.log('called parts');
+            console.log(arguments);
         }
     });
     

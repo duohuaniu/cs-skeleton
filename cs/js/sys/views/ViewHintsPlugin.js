@@ -1,50 +1,43 @@
 define([
-    'backbone'
+    'sys/ViewPlugin'
   , 'underscore'
   , 'bootstrap'
 ],function(
-    Backbone
+    ViewPlugin
   , _
 ){
     
     // simple tooltip/popover management library
-    var ViewHintsMgr = function(view){
-        var options = view.options || {}
-          , hints = options.hints;
-        
-        
-        // expects view to be a Backbone.View
-        if (! (view instanceof Backbone.View)) throw new Error('ViewHintsMgr missing Backbone.View (view)');
-        
-        // store reference to view
-        this.view = view;
-        
-        // parse hints template
-        var hints;
-        try { hints = JSON.parse(hints||'{}'); }
-        catch (e) { hints = {}; }
-        
-        // store references to parsed hints
-        this._tooltips = hints.tooltips || [];
-        this._popovers = hints.popovers || [];
-        
-        // attach clean up for tooltips
-        this.listenTo(view, 'remove', function(){
-            this.tooltips('disable');
-        });
-        
-        // attach clean up for popovers
-        this.listenTo(view, 'remove', function(){
-            this.popovers('disable');
-        });
-    };
+    var ViewHintsPlugin = ViewPlugin.extend({
     
-    // extend prototype definition (incl. Backbone.Events)
-    _.extend(ViewHintsMgr.prototype, Backbone.Events, {
+        // init plugin
+        initialize: function(){
+            var hints = (this.view.options || {}).hints;
+            
+            // parse hints template
+            var hints;
+            try { hints = JSON.parse(hints||'{}'); }
+            catch (e) { hints = {}; }
+            
+            // proceed only if we have valid options
+            if (hints) {
+                
+                // store references to parsed hints
+                this._tooltips = hints.tooltips || [];
+                this._popovers = hints.popovers || [];
+                
+                // attach clean up for tooltips/popovers
+                this.listenTo(this.view, 'remove', function(){
+                    this.tooltips('disable');
+                    this.popovers('disable');
+                    this.stopListening();
+                });
+            }
+        }
         
         // "enable" or "disable" tooltips
         // see http://twitter.github.com/bootstrap/javascript.html#tooltips
-        tooltips: function(enable){
+      , tooltips: function(enable){
             var tooltips = this._tooltips
               , view = this.view;
             
@@ -151,5 +144,6 @@ define([
         
     });
     
-    return ViewHintsMgr;
+    // and that's it!
+    return ViewHintsPlugin;
 });

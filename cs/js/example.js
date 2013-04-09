@@ -45,53 +45,41 @@ define([
             this.model = new AppModel();
             this.user = new UserModel();
             
-            // initialize "Content" and "Static" views
+            // initialize static views
+            this.static = {
+                topbar  : new TopbarView()
+            };
+            
+            // initialize content views
             this.views = {
-                content: {
-                    home    : new HomeView()
-                  , about   : new AboutView()
-                  , contact : new ContactView()
-                }
-              , static: {
-                    topbar  : new TopbarView()
-                }
+                home    : new HomeView()
+              // , about   : new AboutView()
+              // , contact : new ContactView()
             };
         }
         
         // see http://backbonejs.org/#Router-routes
       , routes: {
-            '(:main)'          : '_route_default'
+            ''                      : 'default'
+          , 'home(/*splat)'         : 'home'
+          , 'about(/*splat)'        : 'about'
+          , 'contact(/*splat)'      : 'contact'
         }
         
-      , _route_default: function(main){
-            var view = main || 'home';
-            
+      , default: function(){
+            this.navigate('home', {trigger: true, replace: true});
+        }
+        
+      , home: function(path){
+            console.log(path);
             // remove current active content view
-            _.invoke(_.filter(this.views.content, function(v){return v.inDOM();}),'remove');
+            _.invoke(_.filter(this.views, function(v){return v.inDOM();}),'remove');
             
             // render routed view
-            this.views.content[view].render();
-            
-            console.log(view);
+            this.views.home.render();
         }
-        
         
     });
-    
-    new (BaseRouter.extend({
-        routes: {
-            'blah'  : '_route_that'
-        }
-        
-      , _route_that: function(){
-            
-            // remove all other content views
-            _.invoke(this.views.content, 'remove');
-            console.log('that');
-            // render only about content view
-            // this.views.content.about.render();
-        }
-    }));
     
     return ExampleRouter;
 });

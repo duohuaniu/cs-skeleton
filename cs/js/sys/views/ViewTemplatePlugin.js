@@ -1,33 +1,26 @@
 define([
-    'backbone'
+    'sys/ViewPlugin'
   , 'underscore'
   , 'jquery'
 ],function(
-    Backbone
+    ViewPlugin
   , _
   , $
 ){
     
     // simple template management library
-    var ViewTemplateMgr = function(view){
-        var options = view.options || {}
-          , template = options.template;
-        
-        // expects view to be a Backbone.View
-        if (! (view instanceof Backbone.View)) throw new Error('ViewTemplateMgr missing Backbone.View (view)');
-        
-        // store reference to view
-        this.view = view;
-        
-        // store reference to parsed templates
-        this.templates = this._parseTemplate(template);
-    };
+    var ViewTemplatePlugin = ViewPlugin.extend({
     
-    // extend prototype definition (incl. Backbone.Events)
-    _.extend(ViewTemplateMgr.prototype, Backbone.Events, {
-        
+        // plugin init
+        initialize: function(){
+            var template = (this.view.options || {}).template;
+            
+            // store reference to parsed templates
+            if (template) this.templates = this._parseTemplate(template);
+        }
+    
         // takes a raw .tpl collection and keys them by id
-        _parseTemplate: function(template){
+      , _parseTemplate: function(template){
             var templates = {};
             $(template).each(function(i,t){
                 templates[t.id || _.keys(templates).length] = $(t).html();
@@ -55,9 +48,6 @@ define([
         }
     });
     
-    // allow extensions (stolen directly from backbone's extend handler)
-    // see http://backbonejs.org/docs/backbone.html#section-189
-    ViewTemplateMgr.extend = Backbone.Model.extend;
-    
-    return ViewTemplateMgr;
+    // and that's it!
+    return ViewTemplatePlugin;
 });

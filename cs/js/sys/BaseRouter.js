@@ -21,9 +21,26 @@ define([
      * Custom Backbone Router Configurations
      */
     var DefaultRouterConfig = {
-        root : window.location.pathname
-      , pushState : false
+        root        : window.location.pathname
+      , pushState   : false
     };
+    
+    /**
+     * router global reference var
+     */
+    var RouterGlobalVar = 'app';
+    
+    /**
+     * list of Objects to share router ref
+     *
+     * Set a global reference for all Views, Models
+     * and Collections to this Router instance.
+     */
+    var RouterGlobalList = [
+        BaseView
+      , BaseModel
+      // , BaseCollection
+    ];
     
     
     /**
@@ -51,11 +68,10 @@ define([
             // save default options config
             this.options = _.defaults(options||{}, DefaultRouterConfig);
             
-            // set a global reference for all Views, Models
-            // and Collections to this Router instance.
-            BaseView.prototype.app = this;
-            BaseModel.prototype.app = this;
-            // BaseCollection.prototype.app = this;
+            // share ref to this router
+            var router = this; _.each(RouterGlobalList, function(g){
+                g.prototype[RouterGlobalVar] = router;
+            });
             
             // call original constructor
             Backbone.Router.call(this, options);
@@ -92,13 +108,13 @@ define([
             if (! routed) this.navigate('', {trigger:true, replace:true});
             
             // render any static views
-            _.invoke(this.views.static || {}, 'render');
+            _.invoke(this.static || {}, 'render');
         }
         
         // helper to return current route fragment
-      , fragment: function(){
-            return Backbone.history.fragment;
-        }
+      // , fragment: function(){
+            // return Backbone.history.fragment;
+        // }
     });
     
     return BaseRouter;

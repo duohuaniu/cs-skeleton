@@ -1,17 +1,17 @@
 define([
     'backbone'
-  // , 'sys/views/ViewRouterMgr'
-  , 'sys/views/ViewTemplateMgr'
-  , 'sys/views/ViewHintsMgr'
-  , 'sys/views/ViewAjaxCleanupMgr'
-  // , 'sys/views/ViewModalMgr'
+  , 'sys/views/ViewRouterPlugin'
+  , 'sys/views/ViewTemplatePlugin'
+  , 'sys/views/ViewHintsPlugin'
+  , 'sys/views/ViewAjaxPlugin'
+  , 'sys/views/ViewModalPlugin'
 ],function(
     Backbone
-  // , ViewRouterPlugin
+  , ViewRouterPlugin
   , ViewTemplatePlugin
   , ViewHintsPlugin
   , ViewAjaxPlugin
-  // , ViewModalPlugin
+  , ViewModalPlugin
 ){
     
     // list of baseview options to be directly attached as properties.
@@ -25,13 +25,14 @@ define([
       
         // plugins mapping, w/ default BaseView plugins
       , plugins     : { 
-                        tpl     : ViewTemplatePlugin
+                        router  : ViewRouterPlugin
+                      , tpl     : ViewTemplatePlugin
                       , hints   : ViewHintsPlugin
                       , ajax    : ViewAjaxPlugin
-                      // , modal    : ViewModalPlugin
+                      , modal    : ViewModalPlugin
                       }
         
-        // convenience properties
+        // convenience properties (see extendHander())
       , $targets    : {} // convenience mappings for target $els
       , listen      : {} // convenience mappings for backbone events
       , events      : {} // convenience mappings for DOM events
@@ -48,15 +49,6 @@ define([
             // BaseView requires a reference to the central Backbone.Router
             if (! (this.app instanceof Backbone.Router)) throw new Error(this.name + ' missing Backbone.Router (app)');
             
-            // call original constructor
-            Backbone.View.call(this, options);
-            
-            // start listening to other objects
-            this.startListening();
-            
-            // trigger an initialization event, passing itself along
-            this.trigger("initialize", this);
-            
             // initialize plugins container
             this.use = {}; 
             
@@ -65,6 +57,12 @@ define([
             for (var p in plugins) {
                 this.use[p] = new plugins[p](this);
             }
+            
+            // start listening to other objects
+            this.startListening();
+            
+            // call original constructor
+            Backbone.View.call(this, options);
         }
         
         // helper function for selecting DOM elements
@@ -157,7 +155,7 @@ define([
         }
         
     }, {
-    
+        
         /**
          * "Handler" Helper function
          * 

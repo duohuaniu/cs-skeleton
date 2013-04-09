@@ -65,8 +65,8 @@ define([
         }
         
       , listen: {
-            'render' : '_renderNavigation'
-          , 'route app' : '_renderNavigation'
+            // 'render' : '_renderNavigation'
+          // , 'route app' : '_renderNavigation'
         }
         
       , _renderNavigation: function(){
