@@ -70,7 +70,8 @@ define([
      
     // directly inserts a basic introduction message
     var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = 
+    var intro = document.createElement('div');
+    intro.innerHTML = 
         "<div class='well' style='margin:0 auto;width:700px;text-align:center;color:gray'>" + 
             "<h1>It's all in the source code.</h1>" + 
             "<div style='display:block;width:400px;margin:0 auto;'><ol style='text-align:left;'>" +
@@ -87,13 +88,16 @@ define([
                 "src='//s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png' " +
                 "alt='Fork me on GitHub' />" +
         "</a>";
+    body.appendChild(intro);
     
-    // set a global start function
-    // note: this is generally bad practice, and should be avoided in regular code!
+    // set a one-time global start()
     this.start = function(){
-        body.innerHTML = '';
+        delete this.start;
+        body.removeChild(intro);
+        
+        // create new Example() instance
         var example = new Example();
-        example.start();
+        example.start(); // and away we go!
     }
     
     /**
@@ -101,8 +105,7 @@ define([
      * 
      * cs-skeleton is bundled with a few development utilities, and some 
      * extensions to popular libraries. The core of these extensions focus on 
-     * building a framework around BackboneJS, which is deliberately agnostic 
-     * about its architecture. See http://backbonejs.org/#FAQ-tim-toady. 
+     * building a framework around BackboneJS. (see http://backbonejs.org/#FAQ-tim-toady)
      * 
      * By providing these extensions and utilities, we've come up with an 
      * architecture and development roadmap that works for our team. 
