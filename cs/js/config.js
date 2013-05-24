@@ -51,6 +51,10 @@ require([],function(){
             // Library." (http://http://jqueryui.com/)
           , jqueryui : "//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui"
           
+            // Modernizr - "is a JavaScript library that detects HTML5 and CSS3 
+            // features in the user’s browser." (http://modernizr.com/)
+          , modernizr : "//cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr"
+            
             // Bootstrap - "Sleek, intuitive, and powerful front-end framework for 
             // faster and easier web development." (http://twitter.github.com/bootstrap/)
           , bootstrap : "//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/js/bootstrap"
@@ -67,7 +71,11 @@ require([],function(){
             // and connects it all to your existing API over a RESTful JSON interface."
             // (http://backbonejs.org/)
           , backbone : "//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone"
-          
+            
+            // Skeleton.js - "aims to be yet another opinionated extension of 
+            // backbonejs." (http://backbonejs.org/#FAQ-tim-toady, and more docs TBD)
+          , skeleton: "sys/skeleton"
+            
             // Moment.js - "A 5.5kb javascript date library for parsing, validating, 
             // manipulating, and formatting dates." (http://momentjs.com/)
           , moment : "//cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment"
@@ -123,6 +131,9 @@ require([],function(){
           , 'jqueryui' : {
                 deps: ['jquery']
               , exports : '$.ui'
+            }
+          , 'modernizr' : {
+                exports : 'Modernizr'
             }
           , 'bootstrap' : { 
                 deps: ['jquery']

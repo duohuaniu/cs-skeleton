@@ -1,15 +1,15 @@
 define([
-    'sys/ViewPlugin'
+    './../View'
   , 'underscore'
   , 'jquery'
 ],function(
-    ViewPlugin
+    View
   , _
   , $
 ){
     
     // tracks ajax requests for easy cleanup
-    var ViewAjaxPlugin = ViewPlugin.extend({
+    var ViewAjaxPlugin = View.Plugin.extend({
         
         // init plugin
         initialize: function(){ 
@@ -43,9 +43,15 @@ define([
             else throw new Error('AjaxMgr cannot track invalid xhr object');  
         }
         
+        // manually make a direct ajax requset
+      , request: function(settings){
+            var xhr = $.ajax(settings);
+            this.track(xhr);
+            return xhr;
+        }
+        
         // cleans up all tracked xhr objects
       , cleanup: function(){
-            
             _.invoke(this.ajax, 'abort');
             this.stopListening();
         }

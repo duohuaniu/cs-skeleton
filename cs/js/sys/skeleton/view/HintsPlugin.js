@@ -1,14 +1,14 @@
 define([
-    'sys/ViewPlugin'
+    './../View'
   , 'underscore'
   , 'bootstrap'
 ],function(
-    ViewPlugin
+    View
   , _
 ){
     
     // simple tooltip/popover management library
-    var ViewHintsPlugin = ViewPlugin.extend({
+    var ViewHintsPlugin = View.Plugin.extend({
     
         // init plugin
         initialize: function(){

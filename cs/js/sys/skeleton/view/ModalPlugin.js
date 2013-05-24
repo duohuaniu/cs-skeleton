@@ -1,10 +1,10 @@
 define([
-    'sys/ViewPlugin'
+    './../View'
   // , 'sys/ModalMgr'
   , 'bootstrap'
   , 'jqueryui'
 ],function(
-    ViewPlugin
+    View
   // , ModalMgr
   , $
 ){
@@ -16,7 +16,7 @@ define([
     // var modalMgr = new ModalMgr();
     
     // enables modal-type UI
-    var ViewModalPlugin = ViewPlugin.extend({
+    var ViewModalPlugin = View.Plugin.extend({
         
         // init plugin (nothing to do)
         initialize: function(){} 
@@ -80,15 +80,10 @@ define([
             var modalPlugin = this, $modal = this.$modal;
             
             // setup DOM event listners
-            $modal.on({
-                'click.modalPlugin .modal-minimize' : function(){ modalPlugin.minimize(); }
-              , 'active.modalPlugin .modal'         : function(){ modalPlugin.trigger('active', this); }
-              , 'inactive.modalPlugin .modal'       : function(){ modalPlugin.trigger('inactive', this); }
-              , 'hidden.modalPlugin .modal'         : function(){ modalPlugin.view.remove(); } 
-            });
-            
-            // handle view cleanup
-            this.listenTo(view, 'remove', function(){ $modal.off('.modalPlugin'); });
+            $modal.on('hidden',function(){modalPlugin.view.remove();});
+            $modal.on('click','.modal-minimize',null,function(){modalPlugin.minimize();});
+            $modal.on('active',function(){ console.log('active');modalPlugin.trigger('active', this); });
+            $modal.on('inactive',function(){ modalPlugin.trigger('inactive', this); });
         }
         
         // modal minimize action (collapse modal body and footer)
