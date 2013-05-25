@@ -6,25 +6,19 @@
  *
  */
 define([
-    'sys/BaseRouter'
+    'skeleton'
   , 'app/models/AppModel'
   , 'app/models/UserModel'
-  , 'app/views/TopbarView'
-  , 'app/views/ExampleView'
-  , 'app/views/ExampleView'
-  , 'app/views/ExampleView'
+  , 'app/views/RootView'
 ],function(
-    BaseRouter
+    Skeleton
   , AppModel
   , UserModel
-  , TopbarView
-  , HomeView
-  , AboutView
-  , ContactView
+  , RootView
 ){
 
     /**
-     * Example BaseRouter Definition
+     * Example Router Definition
      * 
      * For full details on Backbone Router configurations, see 
      * http://backbonejs.org/#Router. 
@@ -37,46 +31,16 @@ define([
      * "Content" and "Static" views: http://documentation.tbd/views.
      * 
      */
-    var ExampleRouter = BaseRouter.extend({
+    var ExampleRouter = Skeleton.Router.extend({
         
         initialize: function(options){
             
-            // initialize common models: AppModel, UserModel
+            // initialize common models
             this.model = new AppModel();
             this.user = new UserModel();
             
-            // initialize static views
-            this.static = {
-                topbar  : new TopbarView()
-            };
-            
-            // initialize content views
-            this.views = {
-                home    : new HomeView()
-              // , about   : new AboutView()
-              // , contact : new ContactView()
-            };
-        }
-        
-        // see http://backbonejs.org/#Router-routes
-      , routes: {
-            ''                      : 'default'
-          , 'home(/*splat)'         : 'home'
-          , 'about(/*splat)'        : 'about'
-          , 'contact(/*splat)'      : 'contact'
-        }
-        
-      , default: function(){
-            this.navigate('home', {trigger: true, replace: true});
-        }
-        
-      , home: function(path){
-            console.log(path);
-            // remove current active content view
-            _.invoke(_.filter(this.views, function(v){return v.inDOM();}),'remove');
-            
-            // render routed view
-            this.views.home.render();
+            // initialize and render root view
+            (new RootView({el: 'body'})).render();
         }
         
     });

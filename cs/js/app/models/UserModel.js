@@ -1,11 +1,11 @@
 define([
-    'sys/BaseModel'
+    'skeleton'
 ],function(
-    BaseModel
+    Skeleton
 ){
     
     // todo: implement me!
-    var UserModel = BaseModel.extend({
+    var UserModel = Skeleton.Model.extend({
     
     });
     

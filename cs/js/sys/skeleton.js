@@ -33,9 +33,13 @@ define([
         return this;
     };
     
-    // new View declaration (extended to use default ViewPlugins)
-    Skeleton.View = View.extend({use: ViewPlugins});
-
+    // new View declaration 
+    Skeleton.View = View.extend({
+        
+        // extended to use default ViewPlugins
+        use: ViewPlugins
+    });
+    
     // new Model declaration
     Skeleton.Model = Model;
 
@@ -43,10 +47,15 @@ define([
     Skeleton.Collection = Collection;
     
     // new Router declaration
-    Skeleton.Router = Router;
+    Skeleton.Router = Router.extend({
     
-    // enforce psudo-"global" state of Router instance
-    Router.setProto([View, Model, Collection], 'router');
+        // extended to enforce psudo-"global" availablity
+        constructor: function(){
+            var psGlobal = [View, Model, Collection];
+            for (var i in psGlobal) psGlobal[i].prototype['router'] = this;
+            return Router.apply(this, arguments);
+        }
+    });
     
     // new Dispatcher declaration
     Skeleton.Dispatcher = Dispatcher;

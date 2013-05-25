@@ -24,16 +24,11 @@ define([
     
     /**
      * Router
-     * Backbone.Router extended to add:
-     *      - singleton pattern
-     *      - psudo-"global" availability
-     *      - act only as a route event emitter.
+     * Backbone.Router extended to add singleton pattern
      */
-    var routerSingleton, 
-        protoVar = 'router'
-      , appendProto = [];
+    var routerSingleton;
     var Router = Backbone.Router.extend({
-
+        
         // extended default constructor
         constructor: function(options){
             
@@ -43,9 +38,6 @@ define([
             
             // save default options config
             var options = this.options = _.defaults(options||{}, defaultConfig);
-            
-            // enforce psudo-"global" availablity
-            for (var i in appendProto) appendProto[i].prototype[protoVar] = this;
             
             // call original constructor
             Backbone.Router.call(this, options);
@@ -61,7 +53,7 @@ define([
               , pushState: options.pushState
             });
             
-            // see documentation on "PushState Considerations"
+            // see documentation on "Push State Considerations"
             // if pushState is enabled, we want to prevent
             // default page navigations via <a /> tags
             if (options.pushState) {
@@ -79,31 +71,12 @@ define([
                 });
             }
             
-            // on failure to match route, navigate to default (empty)
-            // note: this is impossible, because the routes defined below
-            //       should cover every possibe case.
-            if (! routed) this.navigate('', {trigger:true, replace:true});
-        }
-        
-        // see http://backbonejs.org/#Router-routes
-      , routes: {}
-        
-    },{
-    
-        // "setProto" Helper to collect targets for psudo-global state
-        setProto: function(list, prop){
-            appendProto = list;
-            protoVar = prop;
-        }
-        
-        // "extendRoutes" helper to keep appending to routes hash
-      , extendRoutes: function(hash){
-            var routes = this.prototype.routes;
-            this.prototype.routes = _.extend(routes || {}, hash);
+            // on failure to match route, trigger "noroute" event
+            if (! routed) this.trigger("noroute", this);
         }
         
     });
-   
+    
     // and that's it! 
     return Router;
 });

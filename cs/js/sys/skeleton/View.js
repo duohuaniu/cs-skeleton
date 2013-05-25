@@ -32,19 +32,12 @@ define([
      *      - basic plugin functionality, 
      *      - "parent" view reference, 
      *      - "listen" events mapping, 
-     *      - "$targets" elements mapping,
-     *      - $DOM container functionality, and 
+     *      - "$targets" elements mapping, and 
      *      - "render"/"remove" event triggers.
      */
     var View = Backbone.View.extend({
         
-        // view name, to be overwritten
-        className : 'View' 
-      
-      , use: {} // mapping of plugins
-      
-        // DOM container node. see "setElement()" and static fn "setDOM()"
-      // , $DOM : 'body' // defaulted to <body /> node
+        use: {} // mapping of plugins
         
         // convenience properties (see extendHander())
       , $targets    : {} // convenience mappings for target $els
@@ -58,7 +51,7 @@ define([
             if (options.parent) this.parent = options.parent;
             
             // initialize plugins
-            this._init_plugins();
+            this._initPlugins();
             
             // call original constructor
             Backbone.View.apply(this, arguments);
@@ -68,7 +61,7 @@ define([
             this.startListening();
         }
         
-      , _init_plugins: function(){
+      , _initPlugins: function(){
             var plugins = _.clone(_.result(this, 'use') || {});
             for (var p in plugins) plugins[p] = new plugins[p](this);
             this.use = plugins; // save plugins to "use" property
@@ -155,30 +148,6 @@ define([
             return this;
         }
         
-        /* // overloaded to auto-insert into DOM
-      , setElement: function(el){
-            var setElement = Backbone.View.prototype.setElement;
-            
-            // auto-insert only if we're given a blank element
-            // and if we're not in the DOM yet.. 
-            if (_.isUndefined(el) && ! this.inDOM()) {
-                
-                // determine DOM target node for inserting
-                var $dom = $(_.result(this, '$DOM'));
-
-                // create root element, and append into $dom node
-                var $el = Backbone.$('<' + _.result(this, 'tagName') + '>')
-                                  .addClass(_.result(this, 'className'))
-                                  .appendTo($dom);
-                
-                // and update view element
-                return setElement.call(this, $el); 
-            }
-            
-            // otherwise, just call original setElement
-            return setElement.apply(this, arguments);
-        } */
-        
         // helper to determine if $el is in DOM
       , inDOM: function($el){
             return ($el || this.$el).closest('html').length > 0; 
@@ -231,24 +200,6 @@ define([
             
             return this; // for chaining..
         }
-
-        /**
-         * "DOM Container" Helper Function
-         *
-         * Updates the view's default DOM container node, for all instances of this view. 
-         * Useful when used together with "setElementDOM()" to ensure view's $el is inserted
-         * within the proper node. 
-         *
-         * The $DOM container node can be defined within the class definition, but sometimes
-         * it's more useful to set the node during runtime, i.e., the container node does not
-         * yet exist, because another view needs to be generated first.
-         *
-         * The target node can be specified as a selector, or as a jquery object.
-         *
-         */
-      /* , setDOM: function(el){
-            this.prototype.$DOM = el;
-        } */
         
         // static property references the Plugin class
       , Plugin: ViewPlugin

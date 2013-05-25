@@ -2,15 +2,17 @@ define([
     // './RouterPlugin'
     './TemplatePlugin'
   , './AjaxPlugin'
-  // , './HintsPlugin'
+  , './RegionPlugin'
+  , './HintsPlugin'
   , './PlaceholderPlugin'
   // , './ModalPlugin'
 ],function(
     // RouterPlugin
     TemplatePlugin
   , AjaxPlugin
+  , RegionPlugin
+  , HintsPlugin
   , PlaceholderPlugin
-  // , HintsPlugin
   // , ModalPlugin
 ){
     
@@ -18,8 +20,9 @@ define([
     return {
         tpl: TemplatePlugin
       , ajax: AjaxPlugin
+      , region: RegionPlugin
       , placeholder: PlaceholderPlugin
-      // , hints: HintsPlugin
+      , hints: HintsPlugin
       // , modal: ModalPlugin
     };
 });

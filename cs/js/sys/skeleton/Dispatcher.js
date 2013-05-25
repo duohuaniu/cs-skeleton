@@ -9,8 +9,8 @@ define([
     // Backbone team was right, this does come in handy.
     // http://backbonejs.org/#Events
     var Dispatcher = function(options){
-        this.options = options;
-        this.initialize();
+        this.options = options || {};
+        this.initialize.apply(this, arguments);
     };
     
     // extended to add in a tiny bit more flexibility
