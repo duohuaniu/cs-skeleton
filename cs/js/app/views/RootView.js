@@ -10,18 +10,16 @@ define([
   , './HeaderView'
   , './content/HomeView'
   , './content/AboutView'
-  // , './content/ContactView'
 ],function(
     Skeleton
   , Template
   , HeaderView
   , HomeView
   , AboutView
-  // , ContactView
 ){
     
     var RootView = Skeleton.View.extend({
-      
+        
         options: { template: Template }
         
       , initialize: function(){}
@@ -36,14 +34,12 @@ define([
             return this;
         }
         
-      // , remove: function(){ ... }
-        
     });
     
     
     // Render Handler
     RootView.extendHandler({
-    
+        
         $targets: {
             'header'    : '.header'
           , 'content'   : '.content'
@@ -67,6 +63,18 @@ define([
             });
         }
         
+    });
+    
+    
+    // Handler Template
+    RootView.extendHandler({
+    
+        $targets: {}
+        
+      , listen: {}
+        
+      , events: {}
+      
     });
     
     

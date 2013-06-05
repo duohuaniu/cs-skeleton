@@ -91,13 +91,17 @@ define([
     body.appendChild(intro);
     
     // set a one-time global start()
-    this.start = function(){
+    this.start = function(type){
+                
+        // cleanup 
         delete this.start;
         body.removeChild(intro);
         
         // create new Example() instance
         var example = new Example();
-        example.start(); // and away we go!
+        
+        // and away we go!
+        example.start(); 
     }
     
     /**

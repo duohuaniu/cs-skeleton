@@ -18,18 +18,10 @@ define([
 ){
 
     /**
-     * Example Router Definition
+     * Example Skeleton Router
      * 
      * For full details on Backbone Router configurations, see 
      * http://backbonejs.org/#Router. 
-     *
-     * For this example, we focus on routing to three "Content" views: 
-     * HomeView, AboutView and ContactView. There is also one "Static" 
-     * view, TopbarView.
-     * 
-     * When planning views for your app, see documentation notes on 
-     * "Content" and "Static" views: http://documentation.tbd/views.
-     * 
      */
     var ExampleRouter = Skeleton.Router.extend({
         

@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">Project name</a>
+            <a class="brand" href="#">Example</a>
             <div class="nav-collapse collapse">
                 <p class="navbar-text pull-right">
                     Logged in as <a href="#" class="navbar-link">Username</a>
@@ -16,7 +16,6 @@
                 <ul class="nav">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -26,7 +25,6 @@
 
 <!-- nav template -->
 <script type="text/html" id="navigation">
-<li<%= path == "" ? " class='active'" : "" %>><a href="#">Home</a></li>
+<li<%= path == "home" ? " class='active'" : "" %>><a href="#home">Home</a></li>
 <li<%= path == "about" ? " class='active'" : "" %>><a href="#about">About</a></li>
-<li<%= path == "contact" ? " class='active'" : "" %>><a href="#contact">Contact</a></li>
 </script>

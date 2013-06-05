@@ -31,35 +31,6 @@ define([
     });
     
     
-    // Render Handler
-    HeaderView.extendHandler({
-    
-        $targets: {
-            // 'header'    : '.header'
-          // , 'content'   : '.content'
-        }
-        
-      , listen: {
-            // 'render'    :['_renderHeaderView'
-                        // , '_renderContentRegion']
-        }
-        
-      , events: {}
-        
-      // , _renderHeaderView: function(){
-            // (new HeaderView({el: this.$t('header')})).render();
-        // }
-        
-      // , _renderContentRegion: function(){
-            // this.use.region.create({
-                // el: this.$t('content')
-              // , views: [new HomeView(), new AboutView()]
-            // });
-        // }
-        
-    });
-    
-    
     // Navigation Handler
     HeaderView.extendHandler({
     
@@ -68,16 +39,28 @@ define([
         }
         
       , listen: {
-            // 'render' : '_renderNavigation'
-          // , 'route app' : '_renderNavigation'
+            'route router' : '_renderNavigation'
         }
         
       , events: {}
         
-      , _renderNavigation: function(){
-            this.use.tpl.render(this.$t('navigation'), 'navigation', {path: this.app.fragment()});
+      , _renderNavigation: function(path){
+            if (! path) return;
+            this.use.tpl.render(this.$t('navigation'), 'navigation', {path: path});
         }
         
+    });
+    
+    
+    // Handler Template
+    HeaderView.extendHandler({
+    
+        $targets: {}
+        
+      , listen: {}
+        
+      , events: {}
+      
     });
     
     

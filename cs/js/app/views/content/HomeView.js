@@ -7,23 +7,19 @@
 define([
     'skeleton'
   , 'text!./HomeView.tpl'
-  , 'text!./HomeView.hint'
 ],function(
     Skeleton
   , Template
-  , Hints
 ){
     
     var HomeView = Skeleton.View.extend({
         
-        options: { 
-            template : Template 
-          , hints : Hints
-        }
+        options: { template : Template }
         
       , initialize: function(){
             
             // register relevant routes
+            this.router.route('','home');
             this.router.route('home','home');
         }
         
@@ -36,9 +32,6 @@ define([
             this.trigger("render", this);
             return this;
         }
-        
-      // , remove: function(){ ... }
-        
     });
     
     
@@ -55,57 +48,18 @@ define([
         
     });
     
-    // handler for view's hints plugin
+    
+    // Handler Template
     HomeView.extendHandler({
     
-        listen: {
-            'render'    :['_renderTooltips'
-                        , '_renderPopovers']
-        }
+        $targets: {}
         
-      , _renderTooltips: function(){
-            
-            // enable view tooltip hints
-            this.use.hints.tooltips(true);
-        }
+      , listen: {}
         
-      , _renderPopovers: function(){
-            
-            // enable view popover hints
-            this.once('open', function(){
-                this.use.hints.popoverToggle({
-                    $el: this.$('.hero-unit button') 
-                  , enabled: true
-                  , event: 'click.popoverToggle'
-                  , toggleClass: 'btn-danger'
-                });
-            });
-        }
+      , events: {}
+      
     });
     
-    // handler for 
-    HomeView.extendHandler({
-    
-        listen: {
-            'route:foo router' : '_foo'
-        }
-        
-      , _nothing: function(){
-            console.log('called nothing');
-        }
-      , _foo: function(){
-            console.log('called foo');
-        }
-      , _splat: function(){
-            console.log('called splat');
-            console.log(arguments);
-        }
-      , _parts: function(){
-            console.log('called parts');
-            console.log(arguments);
-        }
-        
-    });
     
     return HomeView;
 });
