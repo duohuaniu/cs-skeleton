@@ -8,7 +8,8 @@
  * all our modules. See http://requirejs.org/docs/whyamd.html#definition.
  *
  * It all begins with define(), on line 7. Define is provided two arguments:
- * 1) Array of Module Dependencies, and 2) Module Factory Function.
+ * 1) Array of Module Dependencies, and 
+ * 2) Module Factory Function.
  *
  * The Module Dependencies (1), are passed as arguments to the Factory 
  * Function (2) in the same order that they are listed.
